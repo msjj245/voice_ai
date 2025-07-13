@@ -1,6 +1,10 @@
-# Voice AI App
+# 🎙️ Voice AI App - AI-Powered Voice Analysis
 
-AI 기반 음성 분석 앱 - 로컬 음성 인식과 텍스트 분석 기능을 제공합니다.
+[![Flutter CI/CD](https://github.com/msjj245/voice_ai/actions/workflows/flutter_ci.yml/badge.svg)](https://github.com/msjj245/voice_ai/actions/workflows/flutter_ci.yml)
+[![CodeRabbit](https://img.shields.io/badge/Reviewed%20by-CodeRabbit-blue)](https://coderabbit.ai)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+A powerful Flutter application that provides **local AI-powered voice analysis** with speech recognition and intelligent text processing, all running offline on your device.
 
 ## 주요 기능
 
