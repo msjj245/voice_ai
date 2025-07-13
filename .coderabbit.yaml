@@ -1,0 +1,134 @@
+# CodeRabbit 설정 파일
+# https://docs.coderabbit.ai/guides/review-instructions
+
+# 언어별 설정
+language: dart
+framework: flutter
+
+# 리뷰 범위 설정
+reviews:
+  # 자동 리뷰할 파일 패턴
+  auto_review:
+    - "lib/**/*.dart"
+    - "test/**/*.dart"
+    - "integration_test/**/*.dart"
+    - "pubspec.yaml"
+    - "analysis_options.yaml"
+  
+  # 리뷰에서 제외할 파일
+  ignore:
+    - "**/*.g.dart"         # 생성된 파일
+    - "**/*.freezed.dart"   # 생성된 파일
+    - "**/*.gr.dart"        # 생성된 파일
+    - "**/*.config.dart"    # 설정 파일
+    - "**/generated_plugin_registrant.dart"
+    - "ios/**"              # iOS 네이티브 코드
+    - "android/**"          # Android 네이티브 코드
+    - "windows/**"          # Windows 네이티브 코드
+    - "linux/**"            # Linux 네이티브 코드
+    - "macos/**"            # macOS 네이티브 코드
+    - "web/**"              # 웹 관련 파일
+
+# Flutter/Dart 전용 검토 규칙
+checks:
+  # 코드 품질
+  code_quality:
+    - dart_style_guide      # Dart 스타일 가이드 준수
+    - flutter_best_practices # Flutter 모범 사례
+    - null_safety          # Null safety 검증
+    - performance          # 성능 최적화
+    - memory_leaks         # 메모리 누수 검사
+    
+  # 아키텍처 패턴
+  architecture:
+    - clean_architecture   # Clean Architecture 패턴
+    - provider_patterns    # Provider/Riverpod 패턴
+    - state_management     # 상태 관리 패턴
+    - dependency_injection # 의존성 주입 패턴
+    
+  # 보안
+  security:
+    - sensitive_data       # 민감 데이터 노출 검사
+    - api_security         # API 보안 검사
+    - file_permissions     # 파일 권한 검사
+    
+  # 테스트
+  testing:
+    - test_coverage        # 테스트 커버리지
+    - test_quality         # 테스트 품질
+    - unit_tests          # 단위 테스트
+    - widget_tests        # 위젯 테스트
+
+# 커스텀 규칙 (프로젝트 특화)
+custom_rules:
+  # AI/ML 관련 규칙
+  ai_ml:
+    - ffi_memory_management    # FFI 메모리 관리
+    - native_library_safety    # 네이티브 라이브러리 안전성
+    - model_loading_patterns   # 모델 로딩 패턴
+    - async_processing        # 비동기 처리 패턴
+    
+  # 오디오 처리 규칙
+  audio:
+    - audio_permission        # 오디오 권한 처리
+    - audio_format_handling   # 오디오 포맷 처리
+    - recording_lifecycle     # 녹음 생명주기
+    
+  # 데이터 저장소 규칙
+  storage:
+    - hive_adapter_safety     # Hive 어댑터 안전성
+    - data_serialization      # 데이터 직렬화
+    - storage_migration       # 저장소 마이그레이션
+
+# 리뷰 스타일
+review_style:
+  tone: "constructive"      # 건설적인 톤
+  detail_level: "high"      # 높은 상세도
+  include_suggestions: true # 개선 제안 포함
+  include_examples: true    # 예제 코드 포함
+
+# 우선순위 설정
+priority:
+  high:
+    - security_vulnerabilities
+    - memory_leaks
+    - null_safety_violations
+    - performance_issues
+  
+  medium:
+    - code_style_violations
+    - architecture_concerns
+    - test_coverage_gaps
+  
+  low:
+    - documentation_improvements
+    - naming_conventions
+    - minor_optimizations
+
+# 자동 수정 설정
+auto_fix:
+  enabled: true
+  safe_only: true           # 안전한 수정만 자동 적용
+  categories:
+    - formatting
+    - import_organization
+    - unused_imports
+    - simple_refactoring
+
+# 알림 설정
+notifications:
+  # PR 생성 시 자동 리뷰 요청
+  auto_request_review: true
+  
+  # 리뷰 완료 시 알림
+  review_complete: true
+  
+  # 중요 이슈 발견 시 즉시 알림
+  critical_issues: true
+
+# 학습 모드 (프로젝트 특화 학습)
+learning:
+  enabled: true
+  adapt_to_codebase: true   # 코드베이스에 맞게 적응
+  learn_patterns: true      # 패턴 학습
+  improve_suggestions: true # 제안 품질 개선

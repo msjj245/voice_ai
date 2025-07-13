@@ -1,0 +1,11 @@
+# This is a placeholder for the app icon
+# In a real app, you would need to generate proper icon files using:
+# - Android Asset Studio
+# - flutter_launcher_icons package
+# 
+# Icon sizes:
+# mipmap-hdpi: 72x72
+# mipmap-mdpi: 48x48
+# mipmap-xhdpi: 96x96
+# mipmap-xxhdpi: 144x144
+# mipmap-xxxhdpi: 192x192

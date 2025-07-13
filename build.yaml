@@ -1,0 +1,7 @@
+targets:
+  $default:
+    builders:
+      hive_generator|hive_generator:
+        options:
+          # Options for Hive generator
+          output_extension: '.g.dart'

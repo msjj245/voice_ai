@@ -1,0 +1,140 @@
+name: CodeRabbit AI Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main, develop]
+  
+  # 수동 트리거도 허용
+  workflow_dispatch:
+
+# 권한 설정
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  checks: write
+
+jobs:
+  coderabbit-review:
+    name: CodeRabbit AI Code Review
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 전체 히스토리 가져오기
+      
+      # Flutter 환경 설정
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.0'
+          channel: 'stable'
+          cache: true
+      
+      # 의존성 설치
+      - name: Install dependencies
+        run: flutter pub get
+      
+      # 코드 생성 (필요한 경우)
+      - name: Generate code
+        run: |
+          if [ -f "pubspec.yaml" ] && grep -q "build_runner" pubspec.yaml; then
+            flutter pub run build_runner build --delete-conflicting-outputs
+          fi
+      
+      # 정적 분석
+      - name: Analyze code
+        run: flutter analyze --no-pub
+        continue-on-error: true
+      
+      # 테스트 실행
+      - name: Run tests
+        run: flutter test --coverage
+        continue-on-error: true
+      
+      # CodeRabbit AI 리뷰 실행
+      - name: CodeRabbit Review
+        uses: coderabbitai/coderabbit-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # CodeRabbit API 키 (저장소 시크릿에 추가 필요)
+          coderabbit_token: ${{ secrets.CODERABBIT_TOKEN }}
+          
+          # 리뷰 설정
+          review_level: 'comprehensive'  # 포괄적 리뷰
+          include_tests: true           # 테스트 파일도 리뷰
+          auto_comment: true            # 자동 코멘트
+          
+          # Flutter/Dart 특화 설정
+          language: 'dart'
+          framework: 'flutter'
+          
+          # 프로젝트 컨텍스트 제공
+          project_context: |
+            이 프로젝트는 Flutter로 개발된 AI 음성 분석 애플리케이션입니다.
+            
+            주요 기능:
+            - 로컬 음성 인식 (Whisper.cpp)
+            - AI 텍스트 분석 (LLaMA.cpp)
+            - FFI를 통한 네이티브 라이브러리 통합
+            - Riverpod 상태 관리
+            - Hive 로컬 데이터베이스
+            
+            중점 검토 영역:
+            - FFI 메모리 관리 안전성
+            - 비동기 처리 및 상태 관리
+            - 플랫폼별 조건부 컴파일
+            - UI/UX 일관성
+            - 성능 최적화
+      
+      # 테스트 커버리지 업로드 (선택사항)
+      - name: Upload coverage to Codecov
+        if: always()
+        uses: codecov/codecov-action@v3
+        with:
+          file: coverage/lcov.info
+          fail_ci_if_error: false
+
+  # 추가: 코드 품질 체크
+  quality-check:
+    name: Code Quality Analysis
+    runs-on: ubuntu-latest
+    needs: coderabbit-review
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.0'
+          channel: 'stable'
+      
+      - name: Install dependencies
+        run: flutter pub get
+      
+      # Dart 코드 품질 검사
+      - name: Check Dart code metrics
+        run: |
+          # 코드 복잡도 체크
+          flutter pub run dart_code_metrics:metrics analyze lib
+          
+          # 미사용 코드 검사
+          flutter pub run dart_code_metrics:metrics check-unused-code lib
+          
+          # 미사용 파일 검사  
+          flutter pub run dart_code_metrics:metrics check-unused-files lib
+        continue-on-error: true
+      
+      # 보안 검사
+      - name: Security scan
+        run: |
+          # 민감한 정보 스캔
+          if command -v truffleHog &> /dev/null; then
+            truffleHog --regex --entropy=False .
+          fi
+        continue-on-error: true
