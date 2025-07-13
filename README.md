@@ -1,7 +1,7 @@
 # 🎙️ Voice AI App - AI-Powered Voice Analysis
 
 [![Flutter CI/CD](https://github.com/msjj245/voice_ai/actions/workflows/flutter_ci.yml/badge.svg)](https://github.com/msjj245/voice_ai/actions/workflows/flutter_ci.yml)
-[![CodeRabbit](https://img.shields.io/badge/Reviewed%20by-CodeRabbit-blue)](https://coderabbit.ai)
+[![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/msjj245/voice_ai?utm_source=oss&utm_medium=github&utm_campaign=msjj245%2Fvoice_ai&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)](https://coderabbit.ai)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A powerful Flutter application that provides **local AI-powered voice analysis** with speech recognition and intelligent text processing, all running offline on your device.
